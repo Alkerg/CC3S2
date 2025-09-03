@@ -36,6 +36,24 @@ Un **gate de seguridad mínimo** podría definirse con los siguientes umbrales:
 - No se admite ningún fallo de seguridad crítico, de detectarse al menos uno se bloquea el despliegue a producción o al entorno de prueba.
 - Las pruebas de seguridad deben cubrir por lo menos el 80% de las rutas de código.
 
-En adición al **gate de seguridad** podemos crear una **política de excepción** que consista en dar un límite máximo de 15 días para resolver una excepción, para ello se debe crear un plan de corrección que incluya el tipo de riesgo, acciones de mitigación temporal y un plazo estimado para hallar una solución definitiva.
+En adición al **gate de seguridad** podemos crear una **política de excepción** que consista en dar un límite máximo de 15 días para resolver una excepción, para ello se debe crear un plan de corrección que incluya el tipo de riesgo, acciones de mitigación temporal y un plazo estimado para hallar una solución definitiva, esto a cargo del líder técnico backend.
 
 ## CI/CD y estrategias de despliegue (sandbox, canary, azul/verde)
+![pipeline-canary](./imagenes/pipeline-canary.png)
+En el caso de un microservicio de pago, utilizaría la estrategia de despliegue canary ya que los errores en el sistema de pagos generaría grandes pérdidas y es mejor minimizar dicho riesgo mientras se valida la integración de los cambios en el sistema de pagos con usuarios reales a través de métricas como tiempo de respuesta de la transacción o tasa de transacciones fallidas. Además, de haber algún fallo se redirige el tráfico a la versión estable de la aplicación.
+
+| Riesgo                                                                 | Mitigación                                                                                           |
+|------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| Duplicación de transacciones  | Pruebas automatizadas con escenarios de retry.    |
+| Cobros incorrectos    | Test automatizados con datos simulados de múltiples divisas antes del despliegue.        |
+| Interrupción en la pasarela de pagos externa (API de terceros falla con la nueva versión). | Monitoreo específico de llamadas externas y rollback inmediato si error rate > 30%.                   |
+| Latencia alta en confirmación de pagos que afecta experiencia del cliente. | Medir métricas p95/p99 de tiempo de respuesta en el canario y bloquear la ampliación si supera los umbrales. |
+
+**KPI Primario:** Tasa de errores 5XX (errores del lado del servidor) en transacciones de pago
+**Umbrales numéricos** 
+**Umbral de promoción:** Si la tasa de error es menor al 0.2% en la ventana observada.
+**Umbral de abortado:** Si la tasa de error es mayor a 1% se hace rollback inmediato a la versión estable.
+**Ventana de observación:** 30 minutos de tráfico real en el canario
+
+Si el KPI técnico, en este caso la tasa de errores se mantiene, pero una métrica de producto como por ejemplo la tasa de conversión cae, ambas deben coexistir en el gate porque son complementarias. Si bien a nivel técnico el sistema funciona las KPI de producto nos permiten saber si el negocio esta funcionando como debe, puede ser que los nuevos cambios hayan afectado la experiencia de usuario y debido a eso la tasa de conversión disminuyó.
+
