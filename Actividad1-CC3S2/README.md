@@ -20,7 +20,7 @@ Los **trade-offs** de aplicar desarrollo en cascada en este contexto serían:
 - **Colas de defectos:** Los errores se encuentran hacia el final del desarrollo y resulta en un acumulado de defectos que pudieron detectarse antes.
 
 ### Antipatrones del desarrollo de software
-- **"Throw over the wall":** Este antipatrón consiste en la falta de comunicación efectiva en un equipo de desarrollo. Esto incluye la falta de documentación en el código y la falta de contexto sobre los avances que se han realizado, asumiendo que los demás sabrán como hacer que todo funcione. Esta situación no solo retrasa el desarrollo del producto sino que impide la colaboración y aumenta el MTTR (tiempo promedio de reparación) ya que el equipo de operaciones no entiende como funciona el código de los desarrolladores, provocando que la resolución de errores en producción tome más tiempo.
+- **"Throw over the wall":** Este antipatrón consiste en la falta de comunicación efectiva en un equipo de desarrollo. Esto incluye la falta de documentación en el código y la falta de contexto sobre los avances que se han realizado, simplemente se asume que los demás sabrán como hacer que el código funcione. Esta situación no solo retrasa el desarrollo del producto sino que impide la colaboración y aumenta el MTTR (tiempo promedio de reparación) ya que el equipo de operaciones no entiende como funciona el código de los desarrolladores, provocando que la resolución de errores en producción tome más tiempo.
 - **Seguridad como auditoría tardía:** Este antipatrón consiste en comenzar a realizar pruebas y configuraciones de seguridad al final del desarrollo, en vez de hacerlo desde el inicio. Esto genera un alto costo de integración tardía ya que los errores de seguridad descubiertos tardíamente pueden implicar el rediseño de la infraestructura y alargar el tiempo de desarrollo.
 
 
@@ -40,6 +40,7 @@ En adición al **gate de seguridad** podemos crear una **política de excepción
 
 ## CI/CD y estrategias de despliegue (sandbox, canary, azul/verde)
 ![pipeline-canary](./imagenes/pipeline-canary.png)
+
 En el caso de un microservicio de pago, utilizaría la estrategia de despliegue canary ya que los errores en el sistema de pagos generaría grandes pérdidas y es mejor minimizar dicho riesgo mientras se valida la integración de los cambios en el sistema de pagos con usuarios reales a través de métricas como tiempo de respuesta de la transacción o tasa de transacciones fallidas. Además, de haber algún fallo se redirige el tráfico a la versión estable de la aplicación.
 
 | Riesgo                                                                 | Mitigación                                                                                           |
@@ -57,3 +58,7 @@ En el caso de un microservicio de pago, utilizaría la estrategia de despliegue 
 
 Si el KPI técnico, en este caso la tasa de errores se mantiene, pero una métrica de producto como por ejemplo la tasa de conversión cae, ambas deben coexistir en el gate porque son complementarias. Si bien a nivel técnico el sistema funciona las KPI de producto nos permiten saber si el negocio esta funcionando como debe, puede ser que los nuevos cambios hayan afectado la experiencia de usuario y debido a eso la tasa de conversión disminuyó.
 
+## Fundamentos prácticos sin comandos (evidencia mínima)
+
+
+## Desafíos de DevOps y mitigaciones

@@ -1,0 +1,2 @@
+crt=/mnt/d/DS-2025-2/CC3S2/Actividad2-CC3S2/certs/miapp.local.crt
+key=/mnt/d/DS-2025-2/CC3S2/Actividad2-CC3S2/certs/miapp.local.key
