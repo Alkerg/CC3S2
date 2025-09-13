@@ -44,6 +44,9 @@ Usando el target de la guía **hosts-setup** para agregar ```127.0.0.1 miapp.loc
 Usando el target ```tls-cert```
 ![](./evidencias/tls-cert.png)
 
+
+### 2. 
+
 ## Preguntas guía
 **HTTP: explica idempotencia de métodos y su impacto en retries/health checks. Da un ejemplo con curl -X PUT vs POST.**
 
