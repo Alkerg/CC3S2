@@ -1,0 +1,5 @@
+{"ts": "2025-09-14T20:04:34-0500", "level": "INFO", "event": "request", "method": "GET", "path": "/", "remote": "127.0.0.1", "proto": "http"}
+127.0.0.1 - - [14/Sep/2025 20:04:34] "GET / HTTP/1.1" 200 -
+{"ts": "2025-09-14T20:04:36-0500", "level": "INFO", "event": "request", "method": "GET", "path": "/", "remote": "127.0.0.1", "proto": "http"}
+127.0.0.1 - - [14/Sep/2025 20:04:36] "GET / HTTP/1.1" 200 -
+{"ts": "2025-09-14T20:04:38-0500", "level": "INFO", "event": "request", "method": "GET", "path": "/", "remote": "127.0.0.1", "proto": "http"}

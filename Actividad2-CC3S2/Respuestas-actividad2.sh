@@ -27,8 +27,8 @@ set -euo pipefail
 # Configuración (puedes sobrescribir con variables de entorno)
 DOMAIN="${DOMAIN:-miapp.local}"
 PORT="${PORT:-8080}"
-MESSAGE="${MESSAGE:-Hola CC3S2}"
-RELEASE="${RELEASE:-v1}"
+MESSAGE="${MESSAGE:-Hola Mundo :)}"
+RELEASE="${RELEASE:-v2}"
 
 ROOT_DIR="$(pwd)"
 APP_DIR="${APP_DIR:-$ROOT_DIR/miapp}"

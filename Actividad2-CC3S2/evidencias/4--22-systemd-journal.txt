@@ -1,0 +1,2 @@
+Sep 14 20:11:16 DESKTOP-F43V0VL systemd[1]: /etc/systemd/system/miapp.service:8: WorkingDirectory= path is not absolute: ${APP_DIR}
+Sep 14 20:11:16 DESKTOP-F43V0VL systemd[1]: miapp.service: Unit configuration has fatal error, unit will not be started.
