@@ -1,0 +1,12 @@
+archivo1.txt
+archivo2.txt
+archivo3.doc
+errores.txt
+etc_lista.txt
+evidencias
+lista.txt
+mockuser
+secreto.txt
+test.txt
+tmp_conteo.txt
+Hola

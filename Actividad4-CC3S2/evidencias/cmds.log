@@ -1,0 +1,156 @@
++ pwd
++ ls
+-la
++ bash
+-lc
+cd /tmp && pwd && ls -A | wc -l
++ bash
+-lc
+touch archivo1.txt archivo2.txt archivo3.doc
++ bash
+-lc
+ls archivo*.txt || true
++ bash
+-lc
+ls -A | wc -l
++ bash
+-lc
+ls > lista.txt
++ bash
+-lc
+printf "Hola\n" >> lista.txt
++ bash
+-lc
+wc -l < lista.txt
++ bash
+-lc
+ls noexiste 2> errores.txt || true
++ bash
+-lc
+find . -maxdepth 1 -name 'archivo*.txt' | xargs echo rm --
++ bash
+-lc
+cd /etc && ls -a > "/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/etc_lista.txt"
++ bash
+-lc
+find /tmp -maxdepth 1 -type f \( -name "*.txt" -o -name "*.doc" \) | wc -l > "/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/tmp_conteo.txt"
++ bash
+-lc
+printf "Línea1\nLínea2\n" > test.txt
++ bash
+-lc
+nl test.txt | head -n 5
++ bash
+-lc
+wc -l lista.txt
++ whoami
++ id
++ bash
+-lc
+mkdir -p mockuser && touch secreto.txt && chmod 640 secreto.txt
++ ps
+aux
++ bash
+-lc
+sleep 30 & echo $! > .sleep.pid
++ kill
+-SIGTERM
+781
++ systemctl
+status
+ssh
++ systemctl
+status
+sshd
++ bash
+-lc
+journalctl -u systemd-logind -n 10 || true
++ pwd
++ ls
+-la
++ bash
+-lc
+cd /tmp && pwd && ls -A | wc -l
++ bash
+-lc
+touch archivo1.txt archivo2.txt archivo3.doc
++ bash
+-lc
+ls archivo*.txt || true
++ bash
+-lc
+ls -A | wc -l
++ bash
+-lc
+ls > lista.txt
++ bash
+-lc
+printf "Hola\n" >> lista.txt
++ bash
+-lc
+wc -l < lista.txt
++ bash
+-lc
+ls noexiste 2> errores.txt || true
++ bash
+-lc
+find . -maxdepth 1 -name 'archivo*.txt' | xargs echo rm --
++ bash
+-lc
+cd /etc && ls -a > "/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/etc_lista.txt"
++ bash
+-lc
+find /tmp -maxdepth 1 -type f \( -name "*.txt" -o -name "*.doc" \) | wc -l > "/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/tmp_conteo.txt"
++ bash
+-lc
+printf "Línea1\nLínea2\n" > test.txt
++ bash
+-lc
+nl test.txt | head -n 5
++ bash
+-lc
+wc -l lista.txt
++ whoami
++ id
++ sudo
+addgroup
+ops
++ sudo
+adduser
+--disabled-password
+--gecos
+
+devsec
++ sudo
+usermod
+-aG
+ops
+devsec
++ bash
+-lc
+touch secreto.txt
++ sudo
+chown
+devsec:ops
+secreto.txt
++ sudo
+chmod
+640
+secreto.txt
++ ps
+aux
++ bash
+-lc
+sleep 30 & echo $! > .sleep.pid
++ kill
+-SIGTERM
+1155
++ systemctl
+status
+ssh
++ systemctl
+status
+sshd
++ bash
+-lc
+journalctl -u systemd-logind -n 10 || true

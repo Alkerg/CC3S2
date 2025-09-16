@@ -1,0 +1,30 @@
+[2025-09-15 20:24:29] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:24:29] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:24:29] Usando 'script' para grabar toda la sesión en /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sesion.txt
+[2025-09-15 20:24:29] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:24:29] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:24:29] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:24:29] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:24:29] Inicio de ejecución dentro de la sesión grabada
+[2025-09-15 20:24:29] [Sección 1] Manejo sólido de CLI
+[2025-09-15 20:24:30] [Sección 2] Administración básica
+[2025-09-15 20:24:30] Sin privilegios sudo o en --dry-run: simulando con recursos del usuario
+[2025-09-15 20:25:54] Aplicando SANITIZADOR sobre /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sesion.txt -> /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sesion_redactada.txt
+[2025-09-15 20:25:54] SANITIZADOR listo. Muestras en /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sane_check.txt
+[2025-09-15 20:25:54] Listo. Revisa: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:25:54] Entrega recomendada: carpeta Actividad4-CC3S2 completa, especialmente evidencias/sesion_redactada.txt
+[2025-09-15 20:26:44] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:26:44] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:26:44] Usando 'script' para grabar toda la sesión en /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sesion.txt
+[2025-09-15 20:26:44] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:26:44] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:26:44] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:26:44] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:26:44] Inicio de ejecución dentro de la sesión grabada
+[2025-09-15 20:26:44] [Sección 1] Manejo sólido de CLI
+[2025-09-15 20:26:45] [Sección 2] Administración básica
+[2025-09-15 20:26:45] Creando usuario y grupo reales (devsec/ops)
+[2025-09-15 20:27:01] Aplicando SANITIZADOR sobre /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sesion.txt -> /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sesion_redactada.txt
+[2025-09-15 20:27:01] SANITIZADOR listo. Muestras en /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias/sane_check.txt
+[2025-09-15 20:27:01] Listo. Revisa: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:27:01] Entrega recomendada: carpeta Actividad4-CC3S2 completa, especialmente evidencias/sesion_redactada.txt

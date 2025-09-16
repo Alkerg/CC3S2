@@ -1,0 +1,154 @@
+Script started on 2025-09-15 20:26:44-05:00 [COMMAND="./Respuestas-actividad4.sh --inside " TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="125" LINES="11"]
+[2025-09-15 20:26:44] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:26:44] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:26:44] Directorio raíz: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
+[2025-09-15 20:26:44] Evidencias en: /mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/evidencias
+[2025-09-15 20:26:44] Inicio de ejecución dentro de la sesión grabada
+[2025-09-15 20:26:44] [Sección 1] Manejo sólido de CLI
++ pwd
+/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2
++ ls
+-la
+total 4
+drwxrwxrwx 1 albert albert 4096 Sep 15 20:24 .
+drwxrwxrwx 1 albert albert 4096 Sep 15 20:24 ..
+-rwxrwxrwx 1 albert albert    4 Sep 15 20:24 .sleep.pid
+-rwxrwxrwx 1 albert albert    0 Sep 15 20:24 archivo1.txt
+-rwxrwxrwx 1 albert albert    0 Sep 15 20:24 archivo2.txt
+-rwxrwxrwx 1 albert albert    0 Sep 15 20:24 archivo3.doc
+-rwxrwxrwx 1 albert albert   56 Sep 15 20:24 errores.txt
+-rwxrwxrwx 1 albert albert 1685 Sep 15 20:24 etc_lista.txt
+drwxrwxrwx 1 albert albert 4096 Sep 15 20:25 evidencias
+-rwxrwxrwx 1 albert albert   65 Sep 15 20:24 lista.txt
+drwxrwxrwx 1 albert albert 4096 Sep 15 20:24 mockuser
+-rwxrwxrwx 1 albert albert    0 Sep 15 20:24 [REDACTED]o.txt
+-rwxrwxrwx 1 albert albert   16 Sep 15 20:24 test.txt
+-rwxrwxrwx 1 albert albert    2 Sep 15 20:24 tmp_conteo.txt
++ bash
+-lc
+cd /tmp && pwd && ls -A | wc -l
+/tmp
+9
++ bash
+-lc
+touch archivo1.txt archivo2.txt archivo3.doc
++ bash
+-lc
+ls archivo*.txt || true
+archivo1.txt  archivo2.txt
++ bash
+-lc
+ls -A | wc -l
+12
++ bash
+-lc
+ls > lista.txt
++ bash
+-lc
+printf "Hola\n" >> lista.txt
++ bash
+-lc
+wc -l < lista.txt
+12
++ bash
+-lc
+ls noexiste 2> errores.txt || true
++ bash
+-lc
+find . -maxdepth 1 -name 'archivo*.txt' | xargs echo rm --
+rm -- ./archivo1.txt ./archivo2.txt
++ bash
+-lc
+cd /etc && ls -a > "/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/etc_lista.txt"
++ bash
+-lc
+find /tmp -maxdepth 1 -type f \( -name "*.txt" -o -name "*.doc" \) | wc -l > "/mnt/d/DS-2025-2/Curso-CC3S2/ejemplos/Actividad4-CC3S2/tmp_conteo.txt"
++ bash
+-lc
+printf "Línea1\nLínea2\n" > test.txt
++ bash
+-lc
+nl test.txt | head -n 5
+     1	Línea1
+     2	Línea2
++ bash
+-lc
+wc -l lista.txt
+12 lista.txt
+[2025-09-15 20:26:45] [Sección 2] Administración básica
++ whoami
+root
++ id
+uid=0(root) gid=0(root) groups=0(root)
+[2025-09-15 20:26:45] Creando usuario y grupo reales (devsec/ops)
++ sudo
+addgroup
+ops
+info: Selecting GID from range 1000 to 59999 ...
+info: Adding group `ops' (GID 1002) ...
++ sudo
+adduser
+--disabled-[REDACTED]
+--gecos
+
+devsec
+info: Adding user `devsec' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `devsec' (1003) ...
+info: Adding new user `devsec' (1003) with group `devsec (1003)' ...
+info: Creating home directory `/home/devsec' ...
+info: Copying files from `/etc/skel' ...
+info: Adding new user `devsec' to supplemental / extra groups `users' ...
+info: Adding user `devsec' to group `users' ...
++ sudo
+usermod
+-aG
+ops
+devsec
++ bash
+-lc
+touch [REDACTED]o.txt
++ sudo
+chown
+devsec:ops
+[REDACTED]o.txt
++ sudo
+chmod
+640
+[REDACTED]o.txt
++ ps
+aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.4  0.3  21688 13068 ?        Ss   20:23   0:00 /sbin/init
+root           2  0.0  0.0   2780  1928 ?        Sl   20:23   0:00 /init
++ bash
+-lc
+sleep 30 & echo $! > .sleep.pid
++ kill
+-SIGTERM
+1155
++ systemctl
+status
+ssh
+[?1h=Unit ssh.service could not be found.
+[?1l>+ systemctl
+status
+sshd
+[?1h=Unit sshd.service could not be found.
+[?1l>+ bash
+-lc
+journalctl -u systemd-logind -n 10 || true
+[?1h=Sep 12 15:44:15 DESKTOP-F43V0VL systemd[1]: Started systemd-logind.service - User Login Management.
+Sep 12 15:44:18 DESKTOP-F43V0VL systemd-logind[190]: New session 1 of user albert.
+-- Boot ab2441e35f844ac5bc21a9503e52ee21 --
+Sep 14 19:53:24 DESKTOP-F43V0VL systemd[1]: Starting systemd-logind.service - User Login Management...
+Sep 14 19:53:24 DESKTOP-F43V0VL systemd-logind[165]: New seat seat0.
+Sep 14 19:53:24 DESKTOP-F43V0VL systemd[1]: Started systemd-logind.service - User Login Management.
+Sep 14 19:53:26 DESKTOP-F43V0VL systemd-logind[165]: New session 1 of user albert.
+-- Boot 39250b7ed54743fe92fd912a13334208 --
+Sep 15 20:23:30 DESKTOP-F43V0VL systemd[1]: Starting systemd-logind.service - User Login Management...
+Sep 15 20:23:30 DESKTOP-F43V0VL systemd-logind[177]: New seat seat0.
+lines 1-10 ESCESCOOBBSep 15 20:23:30 DESKTOP-F43V0VL systemd[1]: Started systemd-logind.service - User Login Management.
+lines 2-11 ESCESCOOBBSep 15 20:23:32 DESKTOP-F43V0VL systemd-logind[177]: New session 1 of user albert.
+lines 3-12 ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END) ESCESCOOBBlines 3-12/12 (END)lines 3-12/12 (END)lines 3-12/12 (END)lines 3-12/12 (END)lines 3-12/12 (END)lines 3-12/12 (END)
+Script done on 2025-09-15 20:27:01-05:00 [COMMAND_EXIT_CODE="130"]
