@@ -203,9 +203,47 @@ devsec:ops secreto.txt; sudo chmod 640 secreto.txt (usa mock si es entorno compa
 ## Sección 3: Utilidades de texto de Unix
 
 1. Usa grep para buscar "root" en /etc/passwd: grep root /etc/passwd.
-
+```
+root:x:0:0:root:/root:/bin/bash
+```
 2. Con sed, sustituye "dato1" por "secreto" en datos.txt: sed 's/dato1/secreto/' datos.txt > nuevo.txt.
-
+```
+secreto
+```
 3. Con awk y cut, extrae usuarios de /etc/passwd: awk -F: '{print $1}' /etc/passwd | sort | uniq.
-
+```
+_apt
+albert
+backup
+bin
+daemon
+devsec
+dhcpcd
+games
+irc
+landscape
+list
+lp
+mail
+man
+messagebus
+news
+nobody
+polkitd
+proxy
+root
+sync
+sys
+syslog
+systemd-network
+systemd-resolve
+systemd-timesync
+uucp
+uuidd
+www-data
+```
 4. Usa tr para convertir un texto a mayúsculas y tee para guardarlo: printf "hola\n" | tr 'a-z' 'A-Z' | tee mayus.txt.
+
+```
+HOLA
+```
