@@ -1,0 +1,9 @@
+*   6a019b9 (HEAD -> main) Merge branch 'add-feature'
+|\  
+| * c078535 (add-feature) Nuevo feature 2
+| * 3a5aa55 Nuevo feature 1
+|/  
+* 70f1b8d Nuevo mensaje 2
+* 4795e16 Nuevo mensaje 1
+* 800a276 (feature-1) Añadir mensaje feature 1
+* d727e85 Commit inicial

@@ -1,0 +1,15 @@
+* a748ca2 (HEAD -> main) Squash de feature-3: documentación estándar
+| * 6196846 (feature-3) commit 3
+| * ca04dc9 commit 2
+| * fe9a64e commit 1
+|/  
+* 25b27ff Nuevo commit en main
+*   6a019b9 Merge branch 'add-feature'
+|\  
+| * c078535 (add-feature) Nuevo feature 2
+| * 3a5aa55 Nuevo feature 1
+|/  
+* 70f1b8d Nuevo mensaje 2
+* 4795e16 Nuevo mensaje 1
+* 800a276 (feature-1) Añadir mensaje feature 1
+* d727e85 Commit inicial

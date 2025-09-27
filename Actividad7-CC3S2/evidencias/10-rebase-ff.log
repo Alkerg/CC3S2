@@ -1,0 +1,12 @@
+* 4c3d821 (HEAD -> main) Conflicto arreglado
+| * 24ffb1c (feature/cherry-pick) stash arreglado
+| * e239da5 Añadir otros cambios en main y file
+* | ca1406e Añadir file2 con mensaje
+* | 0fe2a9f Añadir file con mensaje
+| | * d91109e (refs/stash) WIP on feature/cherry-pick: 9759222 Añadir file con mensaje
+| |/  
+| * 9759222 Añadir file con mensaje
+|/  
+* e76c10e Agrega ejemplo de cherry-pick
+* 41b498a (origin/main, origin/HEAD) Merge pull request #1 from Alkerg/feature/team-feature
+* 649cfeb Initial commit
