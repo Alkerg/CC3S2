@@ -1,0 +1,4 @@
+Initialized empty Git repository in D:/DS-2025-2/test-repo/.git/
+On branch main
+
+No commits yet

@@ -1,0 +1,12 @@
+bd4f35d (HEAD -> main) Merge branch 'bugfix/rollback-feature'
+b1ef1b8 Corregir error en la funcionalidad de rollback
+a2fc9f0 commit 2
+458f29c commit 1
+82ba104 Revert "agregando mensaje nuevo"
+5509c72 agregando mensaje nuevo
+d7aa6ff Resuelve el conflicto de fusión entre la versión main y feature/advanced-feature
+1983c47 Actualizar el mensaje main.py en la rama main
+84ac2dc Agrega la función grret como función avanzada
+4dfb704 (feature/login, feature/another-new-feature, develop) Agrega main.py
+1d0663d Configura la documentación base del repositorio
+41ab400 Commit inicial con README.md
