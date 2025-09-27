@@ -75,3 +75,295 @@ Test falló: salida inesperada
 ```
 
 ## Parte 2: Leer - Analizar un repositorio completo
+
+Ejercicios realizados con el script ```Respuestas-actividad5.sh```. Las salidas fueron guardadas en la carpeta ```out``` y ```dist```.
+
+- Ejecuta make -n all para un dry-run que muestre comandos sin ejecutarlos; identifica expansiones $@ y $<, el orden de objetivos y cómo all encadena tools, lint, build, test, package.
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make -n all
+command -v python3 >/dev/null || { echo "Falta python3"; exit 1; }
+command -v shellcheck >/dev/null || { echo "Falta shellcheck"; exit 1; }
+command -v shfmt >/dev/null || { echo "Falta shfmt"; exit 1; }
+command -v grep >/dev/null || { echo "Falta grep"; exit 1; }
+command -v awk >/dev/null || { echo "Falta awk"; exit 1; }
+command -v tar >/dev/null || { echo "Falta tar"; exit 1; }
+tar --version 2>/dev/null | grep -q 'GNU tar' || { echo "Se requiere GNU tar"; exit 1; }
+command -v sha256sum >/dev/null || { echo "Falta sha256sum"; exit 1; }
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+command -v ruff >/dev/null 2>&1 && ruff check src || echo "ruff no instalado; omitiendo lint Python"
+mkdir -p out
+python3 src/hello.py > out/hello.txt
+scripts/run_tests.sh
+python3 -m unittest discover -s tests -v
+mkdir -p dist
+tar --sort=name --owner=0 --group=0 --numeric-owner --mtime='UTC 1970-01-01' -czf dist/app.tar.gz -C out hello.txt
+```
+
+- Ejecuta make -d build y localiza líneas "Considerando el archivo objetivo" y "Debe deshacerse", explica por qué recompila o no out/hello.txt usando marcas de tiempo y cómo mkdir -p $(@D) garantiza el directorio.
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make -d build
+GNU Make 4.3
+Built for x86_64-pc-linux-gnu
+Copyright (C) 1988-2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Reading makefiles...
+Reading makefile 'Makefile'...
+Updating makefiles....
+ Considering target file 'Makefile'.
+  Looking for an implicit rule for 'Makefile'.
+  No implicit rule found for 'Makefile'.
+  Finished prerequisites of target file 'Makefile'.
+ No need to remake target 'Makefile'.
+Updating goal targets....
+Considering target file 'build'.
+ File 'build' does not exist.
+  Considering target file 'out/hello.txt'.
+    Considering target file 'src/hello.py'.
+     Looking for an implicit rule for 'src/hello.py'.
+     No implicit rule found for 'src/hello.py'.
+     Finished prerequisites of target file 'src/hello.py'.
+    No need to remake target 'src/hello.py'.
+   Finished prerequisites of target file 'out/hello.txt'.
+   Prerequisite 'src/hello.py' is newer than target 'out/hello.txt'.
+  Must remake target 'out/hello.txt'.
+mkdir -p out
+Putting child 0x5643e7d2a390 (out/hello.txt) PID 578 on the chain.
+Live child 0x5643e7d2a390 (out/hello.txt) PID 578
+Reaping winning child 0x5643e7d2a390 PID 578 
+python3 src/hello.py > out/hello.txt
+Live child 0x5643e7d2a390 (out/hello.txt) PID 579
+Reaping winning child 0x5643e7d2a390 PID 579 
+Removing child 0x5643e7d2a390 PID 579 from chain.
+  Successfully remade target file 'out/hello.txt'.
+ Finished prerequisites of target file 'build'.
+Must remake target 'build'.
+Successfully remade target file 'build'.
+```
+
+- Fuerza un entorno con BSD tar en PATH y corre make tools; comprueba el fallo con "Se requiere GNU tar" y razona por qué --sort, --numeric-owner y --mtime son imprescindibles para reproducibilidad determinista.
+
+
+
+- Ejecuta make verify-repro; observa que genera dos artefactos y compara SHA256_1 y SHA256_2. Si difieren, hipótesis: zona horaria, versión de tar, contenido no determinista o variables de entorno no fijadas.
+
+```
+SHA256_1=5518f3f447d0f26fe96819cb5d8782372529dfa9e596b47a18932de52043214e
+SHA256_2=5518f3f447d0f26fe96819cb5d8782372529dfa9e596b47a18932de52043214e
+OK: reproducible
+```
+
+- Corre make clean && make all, cronometrando; repite make all sin cambios y compara tiempos y logs. Explica por qué la segunda es más rápida gracias a timestamps y relaciones de dependencia bien declaradas.
+
+
+- Ejecuta PYTHON=python3.12 make test (si existe). Verifica con python3.12 --version y mensajes que el override funciona gracias a ?= y a PY="${PYTHON:-python3}" en el script; confirma que el artefacto final no cambia respecto al intérprete por defecto.
+
+```
+Python 3.12.3
+```
+
+- Ejecuta make test; describe cómo primero corre scripts/run_tests.sh y luego python -m unittest. Determina el comportamiento si el script de pruebas falla y cómo se propaga el error a la tarea global.
+
+```
+scripts/run_tests.sh
+Demostrando pipefail:
+Sin pipefail: el pipe se considera exitoso (status 0).
+Con pipefail: se detecta el fallo (status != 0).
+Test falló: salida inesperada
+make: *** [Makefile:29: test] Error 2
+```
+
+- Ejecuta touch src/hello.py y luego make all; identifica qué objetivos se rehacen (build, test, package) y relaciona el comportamiento con el timestamp actualizado y la cadena de dependencias especificada.
+
+```
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+All checks passed!
+mkdir -p out
+python3 src/hello.py > out/hello.txt
+scripts/run_tests.sh
+Demostrando pipefail:
+Sin pipefail: el pipe se considera exitoso (status 0).
+Con pipefail: se detecta el fallo (status != 0).
+Test falló: salida inesperada
+make: *** [Makefile:29: test] Error 2
+```
+
+- Ejecuta make -j4 all y observa ejecución concurrente de objetivos independientes; confirma resultados idénticos a modo secuencial y explica cómo mkdir -p $(@D) y dependencias precisas evitan condiciones de carrera.
+
+
+- Ejecuta make lint y luego make format; interpreta diagnósticos de shellcheck, revisa diferencias aplicadas por shfmt y, si está disponible, considera la salida de ruff sobre src/ antes de empaquetar.
+
+```
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+All checks passed!
+```
+
+```
+shfmt -w scripts/run_tests.sh
+```
+
+## Parte 3: Extender
+
+### 3.1 lint mejorado
+
+Rompe a propósito un quoting en scripts/run_tests.sh (por ejemplo, quita comillas a una variable que pueda contener espacios) y ejecuta make lint. shellcheck debe reportar el problema; corrígelo y vuelve a correr.
+Luego ejecuta make format para aplicar shfmt y estandarizar estilo. Si tienes ruff, inspecciona Python y corrige advertencias.
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make lint
+shellcheck scripts/run_tests.sh
+
+In scripts/run_tests.sh line 21:
+        rm -f $tmp
+              ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+        rm -f "$tmp"
+
+
+In scripts/run_tests.sh line 44:
+        output="$($PY $script)"
+                      ^-----^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+        output="$($PY "$script")"
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+make: *** [Makefile:39: lint] Error 1
+```
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make format
+shfmt -w scripts/run_tests.sh
+```
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ ruff check src || true
+All checks passed!
+```
+
+### 3.2 Rollback adicional
+
+Este chequeo asegura que, si el temporal desaparece, el script falla limpiamente y el trap revierte el estado (restaura hello.py desde .bak) preservando el código de salida.
+
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ ./scripts/run_tests.sh 
+Demostrando pipefail:
+Sin pipefail: el pipe se considera exitoso (status 0).
+Con pipefail: se detecta el fallo (status != 0).
+Test falló: salida inesperada
+```
+
+### 3.3 Incrementalidad
+
+Ejecuta dos veces make benchmark para comparar un build limpio frente a uno cacheado; revisa out/benchmark.txt. Después, modifica el timestamp del origen con touch src/hello.py y repite. Observa que build, test y package se rehacen.
+
+
+```
+Benchmark: 2025-09-26 18:54:16 / Commit: 0616785
+make[1]: Entering directory '/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2'
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+All checks passed!
+scripts/run_tests.sh
+Demostrando pipefail:
+Sin pipefail: el pipe se considera exitoso (status 0).
+Con pipefail: se detecta el fallo (status != 0).
+Test falló: salida inesperada
+make[1]: *** [Makefile:29: test] Error 2
+make[1]: Leaving directory '/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2'
+Command exited with non-zero status 2
+Tiempo: 0:00.48
+```
+
+```
+Benchmark: 2025-09-26 18:53:38 / Commit: 0616785
+make[1]: Entering directory '/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2'
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+All checks passed!
+mkdir -p out
+python3 src/hello.py > out/hello.txt
+scripts/run_tests.sh
+Demostrando pipefail:
+Sin pipefail: el pipe se considera exitoso (status 0).
+Con pipefail: se detecta el fallo (status != 0).
+Test falló: salida inesperada
+make[1]: *** [Makefile:29: test] Error 2
+make[1]: Leaving directory '/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2'
+Command exited with non-zero status 2
+Tiempo: 0:00.72
+```
+
+### Checklist de Smoke-Tests - Bootstrap
+
+Confirma permisos de ejecución del script, presencia de herramientas requeridas y ayuda autodocumentada. Espera que make tools falle temprano si falta una dependencia, con mensaje específico.
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ chmod +x scripts/run_tests.sh
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make tools
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make help
+  all           Construir, testear y empaquetar todo
+  build         Generar out/hello.txt
+  test          Ejecutar tests
+  package       Crear dist/app.tar.gz
+  lint          Lint Bash y (opcional) Python
+  tools         Verificar dependencias
+  check         Ejecutar lint y tests
+  benchmark     Medir tiempo de ejecución
+  format        Formatear scripts con shfmt
+  dist-clean    Limpiar todo (incluye caches opcionales)
+  verify-repro  Verificar que dist/app.tar.gz sea 100% reproducible
+  clean         Limpiar archivos generados
+  help          Mostrar ayuda
+```
+
+### Checklist de Smoke-Tests - Lint y formato
+Ejecuta make lint y corrige problemas de shell reportados por shellcheck. Aplica make format para normalizar estilo con shfmt. Si ruff está disponible, revisa src y corrige advertencias.
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make lint
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+All checks passed!
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make format
+shfmt -w scripts/run_tests.sh
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ ruff check src || true
+All checks passed!
+```
+
+### Checklist de Smoke-Tests - Limpieza
+
+Asegura un entorno de compilación limpio y reproducible para CI y pruebas locales. make dist-clean elimina artefactos (out/, dist/) y cachés (.ruff_cache, __pycache__).
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make all
+shellcheck scripts/run_tests.sh
+shfmt -d scripts/run_tests.sh
+All checks passed!
+scripts/run_tests.sh
+Demostrando pipefail:
+Sin pipefail: el pipe se considera exitoso (status 0).
+Con pipefail: se detecta el fallo (status != 0).
+Test falló: salida inesperada
+make: *** [Makefile:29: test] Error 2
+```
+
+### Checklist de Smoke-Tests - Reproducibilidad
+
+Valida que dos empaquetados consecutivos generen el mismo hash SHA256. Si difieren, revisa versión de tar (debe ser GNU), zona horaria (TZ=UTC), permisos y que no se cuelen archivos extra.
+
+```
+albert@DESKTOP-F43V0VL:/mnt/d/DS-2025-2/CC3S2/Actividad5-CC3S2$ make verify-repro
+SHA256_1=5518f3f447d0f26fe96819cb5d8782372529dfa9e596b47a18932de52043214e
+SHA256_2=5518f3f447d0f26fe96819cb5d8782372529dfa9e596b47a18932de52043214e
+OK: reproducible
+```
