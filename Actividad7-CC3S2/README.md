@@ -8,14 +8,14 @@
 
 ### 3) Fusión Squash (git merge --squash)
 
-Las evidencias se pueden encontrar en la carpeta ```capturas```:
+Las evidencias se pueden encontrar en la carpeta ```evidencias```:
 - 01-ff.log
 - 02-no-ff.log
 - 03-squash.log
 
 ## Ejercicios guiados
 
-Las evidencias se pueden encontrar en la carpeta ```capturas```:
+Las evidencias se pueden encontrar en la carpeta ```evidencias```:
 
 ### A) Evitar (o no) --ff
 
@@ -92,7 +92,7 @@ En un repo compartido se debe mantener un historial intacto por tanto es mejor u
 
 ## Variantes útiles para DevOps/DevSecOps
 
-Las evidencias se pueden encontrar en la carpeta ```capturas```:
+Las evidencias se pueden encontrar en la carpeta ```evidencias```:
 
 ### A) Fast-Forward Only (merge seguro)
 1. Crea feature-ffonly desde main, añade 1 commit.
