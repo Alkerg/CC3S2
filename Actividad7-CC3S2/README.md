@@ -8,7 +8,14 @@
 
 ### 3) Fusión Squash (git merge --squash)
 
+Las evidencias se pueden encontrar en la carpeta ```capturas```:
+- 01-ff.log
+- 02-no-ff.log
+- 03-squash.log
+
 ## Ejercicios guiados
+
+Las evidencias se pueden encontrar en la carpeta ```capturas```:
 
 ### A) Evitar (o no) --ff
 
@@ -85,42 +92,118 @@ En un repo compartido se debe mantener un historial intacto por tanto es mejor u
 
 ## Variantes útiles para DevOps/DevSecOps
 
+Las evidencias se pueden encontrar en la carpeta ```capturas```:
+
 ### A) Fast-Forward Only (merge seguro)
 1. Crea feature-ffonly desde main, añade 1 commit.
 
-2. En main: git merge --ff-only feature-ffonly (debe pasar).
+2. En main: ```git merge --ff-only feature-ffonly``` (debe pasar).
 
 3. Para forzar un fallo didáctico: crea un commit en main tras crear la rama e intenta de nuevo (fallará).
 
+4. Evidencia: ```git log --graph --oneline --decorate --all --first-parent > evidencias/09-ff-only.log```
+
 ### B) Rebase + FF (historial lineal con PRs)
-1. git checkout feature-rebase (con 2-3 commits), actualiza base:
+1. ```git checkout feature-rebase``` (con 2-3 commits), actualiza base: ```git fetch origin && git rebase origin/main```
 
-2. Integra
+2. Integra: ```git checkout main && git merge feature-rebase```
 
-3. git log --graph --oneline --decorate --all --first-parent > evidencias/10-rebase-ff.log
+3. Evidencia: ```git log --graph --oneline --decorate --all --first-parent > evidencias/10-rebase-ff.log```
 
 ### C) Merge con validación previa (sin commitear)
-1. git merge --no-commit --no-ff feature-validate
+1. ```git merge --no-commit --no-ff feature-validate```
 
 2. Validaciones reproducibles mínimas (elige según tu proyecto):
 
 3. Si todo ok: git commit
 
-4. Evidencia: git log --graph --oneline --decorate --all > evidencias/11-pre-commit-merge.log
+4. Evidencia: ```git log --graph --oneline --decorate --all > evidencias/11-pre-commit-merge.log```
 
 ### D) Octopus Merge (varias ramas a la vez)
 1. Prepara feat-a, feat-b (commits pequeños, sin tocar mismas líneas).
 
-2. git checkout main && git merge feat-a feat-b
+2. ```git checkout main && git merge feat-a feat-b```
 
-3. Evidencia: git log --graph --oneline --merges --decorate > evidencias/12-octopus.log
+3. Evidencia: ```git log --graph --oneline --merges --decorate > evidencias/12-octopus.log```
 
 ### E) Subtree (integrar subproyecto conservando historial)
-1. Opción liviana (recomendado): usa un repo mínimo propio para no descargar mucho: git subtree add --prefix=vendor/demo https://github.com/tu-usuario/repo-minimo.git main
-2. Sincroniza: git subtree pull --prefix=vendor/demo https://github.com/tu-usuario/repo-minimo.git main
-3. Evidencia: git log --graph --oneline --decorate --all > evidencias/13-subtree.log
+1. Opción liviana (recomendado): usa un repo mínimo propio para no descargar mucho: ```git subtree add --prefix=vendor/demo https://github.com/tu-usuario/repo-minimo.git main```
+
+```
+Albert@DESKTOP-F43V0VL MINGW64 /d/DS-2025-2/prueba (main)
+$ git subtree add --prefix=vendor/demo git@github.com:Alkerg/repo-minimo.git maingit fetch git@github.com:Alkerg/repo-minimo.git main
+remote: Enumerating objects: 6, done.
+remote: Counting objects: 100% (6/6), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 6 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 1.75 KiB | 163.00 KiB/s, done.
+From github.com:Alkerg/repo-minimo
+ * branch            main       -> FETCH_HEAD
+Added dir 'vendor/demo'
+
+```
+2. Sincroniza: ```git subtree pull --prefix=vendor/demo https://github.com/tu-usuario/repo-minimo.git main```
+
+```
+Albert@DESKTOP-F43V0VL MINGW64 /d/DS-2025-2/prueba (main)
+$ git subtree pull --prefix=vendor/demo git@github.com:Alkerg/repo-minimo.git main
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 947 bytes | 157.00 KiB/s, done.
+From github.com:Alkerg/repo-minimo
+ * branch            main       -> FETCH_HEAD
+Merge made by the 'ort' strategy.
+ vendor/demo/README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+```
+
+3. Evidencia: ```git log --graph --oneline --decorate --all > evidencias/13-subtree.log```
 
 ### F) Sesgos de resolución y normalización (algoritmo ORT)
 
+- Sólo en conflictos:
+
+```
+git merge -X ours  feature-x
+git merge -X theirs feature-x
+```
+
+```
+Albert@DESKTOP-F43V0VL MINGW64 /d/DS-2025-2/prueba (main)
+$ git merge -X ours feature-x
+Updating d8c0387..226c65b
+Fast-forward
+ main.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+ Albert@DESKTOP-F43V0VL MINGW64 /d/DS-2025-2/prueba (main)
+$ git merge -X theirs feature-x
+Updating 226c65b..011be7a
+Fast-forward
+ main.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+```
+
+- Sensibilidad a renombrados:
+
+```
+git merge -X find-renames=90% feature-rename
+```
+
+- EOL mixtos:
+```
+git merge -X renormalize feature-eol
+```
 
 ### G) Firmar merges/commits (auditoría y cumplimiento)
+
+1. Configura firma (GPG o Sigstore). Asegúrate de que el email de la firma coincide con git config user.email para que la plataforma valide la firma.
+
+2. Merge firmado: ```git merge --no-ff --gpg-sign feature-signed```
+
+3. Verifica y guarda: ```git log --show-signature -1 > evidencias/15-signed-merge.log```
+
+![](./evidencias/capturas/gpg.png)
